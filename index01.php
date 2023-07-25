@@ -293,3 +293,24 @@ ifconfig (192.168.1.44)
 192.168.1.44:10000 (entrar con usuario y contraseña del servidor linux)
 
 home/osboxes/docker
+
+cd /docker/nest-graphql
+
+bajar imagen de dockerhub node
+
+
+docker container run \
+--name nest-app \
+-w /app \
+-dp 80:3000 \
+-v "$(pwd)":/app \
+node:18.16-alpine3.16 \
+sh -c "yarn install && yarn start:dev"
+
+test= localhost
+test= localhost/graphql
+
+docker container logs -f 3a5 ("-f" quita el modo detach y entra en follow)
+
+
+docker exec -it 3a5 /bin/sh ("-it" terminar interactiva)

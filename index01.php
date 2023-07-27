@@ -313,4 +313,87 @@ test= localhost/graphql
 docker container logs -f 3a5 ("-f" quita el modo detach y entra en follow)
 
 
-docker exec -it 3a5 /bin/sh ("-it" terminar interactiva)
+docker exec -it 3a5 /bin/sh ("-it" terminal interactiva)
+
+##### proyecto postgres pgadmin ####
+
+docker volume create postgres-db
+
+docker container run \
+-d \
+--name postgres-db \
+-e POSTGRES_PASSWORD=123456 \
+-v postgres-db:/var/lib/postgresql/data \
+postgres:11-bullseye
+
+docker container run \
+--name pgAdmin \
+-e PGADMIN_DEFAULT_PASSWORD=123456 \
+-e PGADMIN_DEFAULT_EMAIL=superman@google.com \
+-dp 8080:80 \
+dpage/pgadmin4
+
+docker container ls
+
+################## SALIDA ##################
+CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS         PORTS                           NAMES
+fd234cb4d570   dpage/pgadmin4         "/entrypoint.sh"         2 minutes ago   Up 2 minutes   443/tcp, 0.0.0.0:8080->80/tcp   pgAdmin
+92b5bf25c01e   postgres:11-bullseye   "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   5432/tcp                        postgres-db
+##################
+
+docker network create postgres-net
+docker network connect postgres-net fd2
+docker network connect postgres-net 92b
+
+http://localhost:8080
+##### dentro pgadmin4 ####
+Click en Servers
+Click en Register > Server
+Colocar el nombre de: "SuperHeroesDB" (el nombre no importa)
+Ir a la pestaña de connection
+Colocar el hostname "postgres-db" (el mismo nombre que le dimos al contenedor)
+Username es "postgres" y el password: 123456
+Probar la conexión
+##### FIN dentro pgadmin4 ####
+
+
+############ DOCKER COMPOSE ############
+
+docker compose version
+
+subir el archivo "archivos/cap4/POSTGRES-PGADMIN/docker-compose.yml" al servidor
+
+cd {DIRECTORIO DONDE LO ALOJAMOS}
+docker compose up
+docker compose up -d (opcional modo detach)
+
+docker compose down (apagar todo)
+docker volume rm
+
+## bind VOLUMES ###
+
+sirve para enlazar los volumenes persistentes al directorio del yml
+subir el archivo "archivos/cap4/POSTGRES-PGADMIN/docker-compose.yml2" al servidor
+
+https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html#mapped-files-and-directories)
+sudo chown -R 5050:5050 pgadmin (para fixear el error si aparece)
+
+##### proyecto mongo ####
+docker compose down (eliminar instancias anteriores)
+https://hub.docker.com/_/mongo
+cargar y ejeecutar "archivos/cap4/pokemon-app/docker-compose.yml"
+
+ingresar a la bd con el usuario en tableplus
+mongodb://localhost:27017
+
+docker compose up -d
+
+docker volume rm pokemon-app_poke-vol
+docker compose up -d
+
+ingresar a la bd con el usuario en tableplus y las credenciales
+mongodb://braian:123456@localhost:27017
+
+las variables de entorno se cargan desde el archivo .env
+
+mongodb://strider:123456789@localhost:27017

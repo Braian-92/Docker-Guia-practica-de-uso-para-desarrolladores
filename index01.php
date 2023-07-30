@@ -467,3 +467,43 @@ una vez que tengamos listo el Dockerfile ejecutar el siguiente comando
 docker build --tag cron-ticker . (el "." indica el directorio del Dockerfile)
 
 docker image ls (visualizar la imagen que creamos actualmente)
+
+docker container run cron-ticker
+
+todos los archivos necesarios para el proyecto se encuentran en la carpeta "archivos/cap05/cron-ticker"
+
+para crear una imagen con un tag especifico realizarlo de esta manera
+
+docker build --tag cron-ticker:1.0.0 .
+
+renombrar etiqueta de imagen
+
+docker image tag cron-ticker:1.0.0 cron-ticker:bufalo
+docker image ls
+
+##### subir imagen a dockerhub ###
+
+crear repo "cron-ticker"
+
+y copiar el link del pull
+docker push braianzamudio/cron-ticker:tagname
+
+docker image tag cron-ticker:latest cron-ticker:bufalo
+
+docker image tag cron-ticker braianzamudio/cron-ticker
+
+autenticarnos con nuestra cuenta de dockerhub
+
+docker login -u braianzamudio -p __TOKEN__ (funcional) (aunque dio error la primera vez [revisar la solución de abajo])
+
+### ERROR ###
+Error saving credentials: error storing credentials - err: exit status 1, out: `error getting credentials - err: exit status 1
+[SOLUCIÓN]
+
+service docker stop
+rm ~/.docker/config.json
+service docker start
+
+### FIN ERROR ###
+
+docker login -u braianzamudio -p __TOKEN__ (funcional)

@@ -361,7 +361,7 @@ Probar la conexión
 
 docker compose version
 
-subir el archivo "archivos/cap4/POSTGRES-PGADMIN/docker-compose.yml" al servidor
+subir el archivo "archivos/cap04/POSTGRES-PGADMIN/docker-compose.yml" al servidor
 
 cd {DIRECTORIO DONDE LO ALOJAMOS}
 docker compose up
@@ -373,7 +373,7 @@ docker volume rm
 ## bind VOLUMES ###
 
 sirve para enlazar los volumenes persistentes al directorio del yml
-subir el archivo "archivos/cap4/POSTGRES-PGADMIN/docker-compose.yml2" al servidor
+subir el archivo "archivos/cap04/POSTGRES-PGADMIN/docker-compose.yml2" al servidor
 
 https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html#mapped-files-and-directories)
 sudo chown -R 5050:5050 pgadmin (para fixear el error si aparece)
@@ -381,7 +381,7 @@ sudo chown -R 5050:5050 pgadmin (para fixear el error si aparece)
 ##### proyecto mongo ####
 docker compose down (eliminar instancias anteriores)
 https://hub.docker.com/_/mongo
-cargar y ejeecutar "archivos/cap4/pokemon-app/docker-compose.yml"
+cargar y ejeecutar "archivos/cap04/pokemon-app/docker-compose.yml"
 
 ingresar a la bd con el usuario en tableplus
 mongodb://localhost:27017
@@ -397,3 +397,73 @@ mongodb://braian:123456@localhost:27017
 las variables de entorno se cargan desde el archivo .env
 
 mongodb://strider:123456789@localhost:27017
+
+#### PROYECTO MONGO - MONGO-EXPRESS ######
+
+subir el archivo a una carpeta "archivos/cap04/pokemon-app/docker-compose3.yml"
+
+nombrarlo docker-compose.yml
+y ejecutar "docker compose up"
+
+es la version 3 por que las anteriores del curso no funcionaron
+
+### proyecto multiconetenedores poke-app ###
+
+subir el archivo "archivos/cap04/pokemon-app2/docker-compose.yml" a una carpeta y una vez en el directorio ejecutar
+docker compose up
+
+
+
+### DOCKERFILEs contruccion de imagenes segun arquitecturas ###
+
+instalar node en servidor
+
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
+
+sudo apt update
+sudo apt install nodejs
+node -v
+sudo apt install npm
+
+cd docker/cron-ticker
+
+npm init
+
+####### OPCIONAL INSTALAR IDE visual studio code ###########
+https://phoenixnap.com/kb/install-vscode-ubuntu
+sudo snap install --classic code // SALIDA "code 695af097 from Visual Studio Code (vscode✓) installed"
+code --version
+code . (para abrir la carpeta en el editor de codigo)
+######################
+
+crear un archivo "app.js"
+##
+console.log("Hola Mundo");
+##
+
+y en la consola ejecutar
+
+node app.js
+// salida => Hola Mundo
+
+instalar el siguiente paquete
+
+https://www.npmjs.com/package/node-cron
+
+ejecutando el comando que sale en npm
+
+npm i node-cron
+
+npm start
+
+## crear un Dockerfile ##
+
+https://hub.docker.com/_/node/tags?page=1&name=19.2
+
+imagen base = docker pull node:19.2.0-alpine3.17
+
+una vez que tengamos listo el Dockerfile ejecutar el siguiente comando
+
+docker build --tag cron-ticker . (el "." indica el directorio del Dockerfile)
+
+docker image ls (visualizar la imagen que creamos actualmente)

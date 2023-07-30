@@ -486,7 +486,7 @@ docker image ls
 crear repo "cron-ticker"
 
 y copiar el link del pull
-docker push braianzamudio/cron-ticker:tagname
+(solo guardarlo)docker push braianzamudio/cron-ticker:tagname
 
 docker image tag cron-ticker:latest cron-ticker:bufalo
 
@@ -507,3 +507,26 @@ service docker start
 ### FIN ERROR ###
 
 docker login -u braianzamudio -p __TOKEN__ (funcional)
+
+docker push braianzamudio/cron-ticker:latest
+
+revisar si estoy registrado
+docker system info | grep -E 'Username|Registry'
+
+docker logout (salir)
+
+###### FIX PUBLICAR IMAGEN ###
+el motor de dockerhub-desktop es una instancia separada del docker hub instalado manualmente
+entonces para guardar la imagen no tenemos que abrirlo y recrear la imagen nuevamente, loguearse , renombrarla y publicarla
+###### FIN FIX PUBLICAR IMAGEN ###
+
+## publicar imagen con etiqueta especifica ##
+docker image tag braianzamudio/cron-ticker braianzamudio/cron-ticker:castor
+docker image ls
+docker push braianzamudio/cron-ticker:castor
+
+docker image prune -a (eliminar todas las imagenes)
+
+## ejecutarlo directamente desde dockerhub ##
+
+docker container run braianzamudio/cron-ticker:castor

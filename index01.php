@@ -530,3 +530,26 @@ docker image prune -a (eliminar todas las imagenes)
 ## ejecutarlo directamente desde dockerhub ##
 
 docker container run braianzamudio/cron-ticker:castor
+
+######### testing ####
+
+Utilizar para el siguiente ejersicio los archivos del directorio "archivos/cap05/cron-ticker_V2"
+
+## plugins necesarios para correr los test de node
+npm i --save-dev
+npm install -g jest
+
+docker build -t braianzamudio/cron-ticker:gato .
+docker container run -d braianzamudio/cron-ticker:gato (ejecutar el contenedor)
+docker exec -it 1b7 /bin/sh (entrar en la linea de comandos)
+ls (visualizar el contenido interior del contenedor)
+exit (salir del contenedor)
+
+##### OPCIONAL INSTALAR ZIP #####
+https://itsfoss.com/es/comprimir-archivos-carpetas-linux/
+zip --version
+sudo apt install zip unzip
+zip -r nombre_comprimido.zip directorio_a_comprimir (comprimir un directorio)
+zip -r cron-ticker.zip ./cron-ticker/ (comprimir un directorio)
+
+###### .dockerignore ########

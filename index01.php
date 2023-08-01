@@ -613,3 +613,33 @@ docker push braianzamudio/cron-ticker:cobra
 docker push braianzamudio/cron-ticker
 
 ejersicios realizados en el directorio "archivos/cap05/cron-ticker_V4"
+
+
+
+############## PROYECTO teslo-shop ####################
+subir los archivos de la carpeta "archivos/cap06/teslo-shop"
+
+####### instalar yarm ######
+https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable
+sudo npm install --global yarn
+
+cd docker/teslo-shop
+yarn install
+
+pdw (visualizar directorio)
+
+docker compose up -d
+
+yarn start:dev
+
+http://localhost:3000/api/seed
+http://localhost:3000/api
+
+docker compose down
+
+
+
+yarn install --prod
+
+dpcker compose build
+docker compose down --volumes

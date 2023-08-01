@@ -583,4 +583,33 @@ docker image tag braianzamudio/cron-ticker:pantera braianzamudio/cron-ticker:lat
 docker push braianzamudio/cron-ticker:pantera
 docker push braianzamudio/cron-ticker
 
-###### Forzar una plataforma en la construcción ########
+###### Forzar una plataforma en la construcción ######## (no funcional el linux)
+
+BASE sin app = FROM --platform=linux/amd64 node:19.2-alphine.16
+
+https://docs.docker.com/build/building/multi-platform/#getting-started
+
+docker buildx ls
+
+docker buildx create --name mybuilder --driver docker-container --bootstrap
+
+docker container ls
+
+docker buildx use mybuilder (cambiar el builder de docker, el asterisco en el ls indica cual esta en uso)
+
+docker buildx inspect (muestra todas las plataformas en las que se puede trabajar)
+
+
+con buildx = FROM --platform=$BUILDPLATFORM node:19.2-alphine.16
+
+docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t braianzamudio/cron-ticker:pantera --push .
+(publica en todas las plataformas seleccionadas)
+
+###### Multi-State Build ######
+
+docker build -t braianzamudio/cron-ticker .
+
+docker push braianzamudio/cron-ticker:cobra
+docker push braianzamudio/cron-ticker
+
+ejersicios realizados en el directorio "archivos/cap05/cron-ticker_V4"

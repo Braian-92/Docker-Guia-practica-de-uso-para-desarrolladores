@@ -123,7 +123,7 @@ postgres:11-bullseye (lo hacemos en otro puerto)
 
 la idea es levantar las 2 imagenes y cargar los 2 postgres diferentes en 2 contenedores
 
-buscamos el link de maria db en dockerhub pero no el tag lastest sino al nombre real (anterior)
+buscamos el link de maria db en dockerhub pero no el tag latest sino al nombre real (anterior)
 
 docker pull mariadb:lts-jammy
 
@@ -551,5 +551,36 @@ zip --version
 sudo apt install zip unzip
 zip -r nombre_comprimido.zip directorio_a_comprimir (comprimir un directorio)
 zip -r cron-ticker.zip ./cron-ticker/ (comprimir un directorio)
+#################################
 
 ###### .dockerignore ########
+
+archivos del proyecto en el siguiente directorio "archivos/cap05/cron-ticker_V3"
+
+docker build -t braianzamudio/cron-ticker:tigre .
+
+docker container run -d braianzamudio/cron-ticker:tigre
+## SALIDA ## 5bff27852dbc16013d248ed624a57097d8dc7eab6cf18c745996ebd5a343a008
+
+docker exec -it 5bf /bin/sh
+ls -al (visualizar todos los archivos)
+exit
+
+docker build -t braianzamudio/cron-ticker:perro .
+docker container run -d braianzamudio/cron-ticker:perro
+
+docker build -t braianzamudio/cron-ticker:pantera .
+docker container run -d braianzamudio/cron-ticker:pantera
+
+docker exec -it 5bf /bin/sh
+
+docker image tag cron-ticker:bufalo braianzamudio/cron-ticker:bufalo
+docker push braianzamudio/cron-ticker:gato
+docker push braianzamudio/cron-ticker:tigre
+
+docker image tag braianzamudio/cron-ticker:pantera braianzamudio/cron-ticker:latest
+
+docker push braianzamudio/cron-ticker:pantera
+docker push braianzamudio/cron-ticker
+
+###### Forzar una plataforma en la construcción ########

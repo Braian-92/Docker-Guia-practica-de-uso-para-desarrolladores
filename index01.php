@@ -772,3 +772,225 @@ Build a Docker image to deploy, run, or push to a registry.
 
  -> configure 
 
+### BASE ### (de esta manera aparecera el docker-image.yml cuando recien se crea)
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+
+### BASE ###
+
+### MODIFICADO ###
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-deph: 0
+    - name: Docker login
+      env: 
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "Iniciando login"
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        echo "Fin del login"
+    # - name: Build the Docker image
+      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+
+### MODIFICADO ### (comitear "Login step in place" los resultados [superior derecha])
+abrir actions en otra pestaña verificar el comit y colocar build (podemos abrir las pestañas y ver el log de la ejecución)
+
+
+### MODIFICADO 2 (construir la imagen) ### (para ingresar nuevamente hacer click en los 3 puntos y view workflow)
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-deph: 0
+    - name: Docker login
+      env: 
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
+    - name: Build Docker Image
+      run: |
+        docker build -t braianzamudio/docker-graphql:0.0.2 .
+        
+    - name: Push Docker Image
+      run: |
+        docker push braianzamudio/docker-graphql:0.0.2 .
+
+    
+    # - name: Build the Docker image
+      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+### MODIFICADO ### (comitear "Build and Push")
+
+docker container ls
+docker container rm -f 10b (eliminamos el contenedor anterior)
+
+docker container run \
+-p 3000:3000 \
+braianzamudio/docker-graphql:0.0.2
+
+localhost:3000/graphql
+
+
+### MODIFICADO 3 (agregar latest) ###
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-deph: 0
+    - name: Docker login
+      env: 
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
+    - name: Build Docker Image
+      run: |
+        docker build -t braianzamudio/docker-graphql:0.0.2 .
+        docker build -t braianzamudio/docker-graphql:latest .
+        
+    - name: Push Docker Image
+      run: |
+        docker push braianzamudio/docker-graphql:0.0.2
+        docker push braianzamudio/docker-graphql:latest
+
+    
+    # - name: Build the Docker image
+      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+### MODIFICADO ###
+
+###################### instalar "Git Semantic Version" esto se instala en github ######################
+###################### instalar "Git Semantic Version" esto se instala en github ######################
+###################### instalar "Git Semantic Version" esto se instala en github ######################
+###################### instalar "Git Semantic Version" esto se instala en github ######################
+
+https://github.com/marketplace/actions/git-semantic-version?version=v4.0.3
+
+##
+- name: Git Semantic Version
+  uses: PaulHatch/semantic-version@v4.0.3
+##
+
+
+### MODIFICADO 3 (agregar Git Semantic Version) ###
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-deph: 0
+
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+      
+    - name: Docker login
+      env: 
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        echo "New version: $NEW_VERSION!!!!!!!!!!!!!"
+        
+    # - name: Build Docker Image
+    #   run: |
+    #     docker build -t braianzamudio/docker-graphql:0.0.2 .
+    #     docker build -t braianzamudio/docker-graphql:latest .
+        
+    # - name: Push Docker Image
+    #   run: |
+    #     docker push braianzamudio/docker-graphql:0.0.2
+    #     docker push braianzamudio/docker-graphql:latest
+
+    
+    # - name: Build the Docker image
+      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+### MODIFICADO ###

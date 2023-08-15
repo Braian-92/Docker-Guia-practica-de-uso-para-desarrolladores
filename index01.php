@@ -652,6 +652,10 @@ https://www.markdownguide.org/basic-syntax/
 
 
 ##### Construncciones automáticas - Github Actions ########
+##### Construncciones automáticas - Github Actions ########
+##### Construncciones automáticas - Github Actions ########
+##### Construncciones automáticas - Github Actions ########
+
 
 subir los archivos del directorio al servidor ubuntu "archivos/cap08/graphql-actions"
 
@@ -695,5 +699,76 @@ git push -u origin master
 ############### generar TOKEN en github ###############
 perfil => settings => developer settings => personal access TOKENs => classic
 generate new TOKEN clasic => validar con el celular
-NOTE => TOKEN devops2 => todos los permisos chequeables
+NOTE => TOKEN XXXX => todos los permisos chequeables
 ############################################################
+
+
+ingresar al repo de github -> settings -> Secrets -> Actions -> new repository secret
+
+    name* = DOCKER_USER
+    secret = ${USUARIO_dockerhub}
+
+    -> new repository secret
+
+    name* = DOCKER_PASSWORD
+    secret = ${PASSWORD_dockerhub}
+
+## DOCKERHUB ###############################
+## DOCKERHUB ###############################
+Crear un repo privado en dockerhub = "docker-graphql"
+hacer el build de la imagen con el tag "0.0.1"
+
+## construir imagen
+siruarse en el directorio de ubuntu
+docker build -t braianzamudio/docker-graphql:0.0.1 . (funciono a la segunda)
+docker image ls
+docker container run -p 3000:3000 braianzamudio/docker-graphql:0.0.1
+localhost:3000/graphql
+//// ejecutar el siguiente comando en graphql
+{
+    hello
+    todos {
+        description
+    }
+}
+//// SALIDA
+{
+  "data": {
+    "hello": "Hola Mundo",
+    "todos": [
+      {
+        "description": "Piedra del Alma"
+      },
+      {
+        "description": "Piedra del Espacio"
+      },
+      {
+        "description": "Piedra del Poder"
+      },
+      {
+        "description": "Piedra del Tiempo"
+      },
+      {
+        "description": "Piedra desde el contenedor"
+      }
+    ]
+  }
+}
+////
+docker container rm -f ${XYZ}
+## DOCKERHUB ###############################
+## DOCKERHUB ###############################
+
+volver a git y una vez dentro del repo ir a -> ACTIONS
+buscar docker image
+
+##### (asi se encuentra redactado [2023-08-14])
+Docker image
+By GitHub Actions
+
+Docker image logo
+Build a Docker image to deploy, run, or push to a registry.
+#####
+
+ -> configure 
+

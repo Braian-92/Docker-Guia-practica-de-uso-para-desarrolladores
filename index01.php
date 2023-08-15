@@ -940,7 +940,7 @@ https://github.com/marketplace/actions/git-semantic-version?version=v4.0.3
 ##
 
 
-### MODIFICADO 3 (agregar Git Semantic Version) ###
+### MODIFICADO 4 (agregar Git Semantic Version) ###
 
 name: Docker Image CI
 
@@ -994,3 +994,76 @@ jobs:
       # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
 ### MODIFICADO ###
+
+modificar un archivo y realizar un comit en el repo con este nombre
+
+"major: nueva version totalmente nueva" para realizar un incremento de la version
+
+### MODIFICADO 5 (agregar publicación en dockerhub con version Git Semantic Version) ###
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-deph: 0
+
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+      
+    - name: Docker login
+      env: 
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        echo "New version: $NEW_VERSION!!!!!!!!!!!!!"
+        
+    - name: Build Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker build -t braianzamudio/docker-graphql:$NEW_VERSION .
+        docker build -t braianzamudio/docker-graphql:latest .
+        
+    - name: Push Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push braianzamudio/docker-graphql:$NEW_VERSION
+        docker push braianzamudio/docker-graphql:latest
+
+    
+    # - name: Build the Docker image
+      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+### MODIFICADO ###
+
+con el solo echo de realizar un comit de este action ya realiza un publicado de la imagen en dockerhub
+"0.0.1-prerelease0"
+
+################### PROYECTO react-heroes ###################
+################### PROYECTO react-heroes ###################
+################### PROYECTO react-heroes ###################
+################### PROYECTO react-heroes ###################
+
+copiar los archivos del directorio en el servidor "archivos/cap09/react-heroes"
+

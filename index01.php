@@ -643,3 +643,57 @@ yarn install --prod
 
 dpcker compose build
 docker compose down --volumes
+
+
+#### GUIA MD ###
+https://www.markdownguide.org/basic-syntax/
+#### GUIA MD ###
+
+
+
+##### Construncciones automáticas - Github Actions ########
+
+subir los archivos del directorio al servidor ubuntu "archivos/cap08/graphql-actions"
+
+crear un repositorio en github llamado "docker-graphql" (y quedarse en el sitio que queda para levantar los comandos luegos)
+
+en la carpeta de ubuntu donde alejamos el "graphql-actions" ejecutar el siguiente comando
+
+git init (inicializar .git)
+git add . (agregar todo el proyecto y agregarlo a un escenario)
+git commit -m "First commit"
+
+##### comando para limpiar la consola rapidamente "CTRL + L" ####
+
+### ERROR ##
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'osboxes@osboxes.(none)')
+### ERROR ##
+## FIX ##
+git config --global user.name "Udemy docker"
+git config --global user.email "braian@braianzamudio.com"
+git config --list
+## FIX ##
+
+### Ahora pegar el comando que nos dejo github cuando creamos el repo ###
+
+git remote add origin https://github.com/Braian-92/docker-graphql.git
+git branch -M master
+git push -u origin master
+
+############### generar TOKEN en github ###############
+perfil => settings => developer settings => personal access TOKENs => classic
+generate new TOKEN clasic => validar con el celular
+NOTE => TOKEN devops2 => todos los permisos chequeables
+############################################################

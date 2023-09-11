@@ -667,7 +667,7 @@ git init (inicializar .git)
 git add . (agregar todo el proyecto y agregarlo a un escenario)
 git commit -m "First commit"
 
-##### comando para limpiar la consola rapidamente "CTRL + L" ####
+##### comando para limpiar la consola rapidamente "CTRL + L" #### CLEAR
 
 ### ERROR ##
 Author identity unknown
@@ -1067,3 +1067,152 @@ con el solo echo de realizar un comit de este action ya realiza un publicado de 
 
 copiar los archivos del directorio en el servidor "archivos/cap09/react-heroes"
 
+cd docker/react-heroes
+yarn (o npm install)
+yarn dev (expone el proyecto en el 3000)
+
+buscar la imagen de nginx en dockerhub
+https://hub.docker.com/_/nginx
+
+descargar la imagen fija de nginx
+docker run --name some-nginx -d -p 8080:80 nginx:1.23.3
+
+ingresar desde: localhost:8080
+
+docker container ls
+docker exec -it f89 bash (it = terminar interactiva)
+ls
+
+cd usr/share/nginx/html (este seria el root equivalente al htdocs de xampp)
+cat index.html 
+exit
+
+code .
+
+// crear el dockerfile 
+
+FROM node:19-alpine3.15 as dev-deps
+WORKDIR /app
+COPY package.json package.json
+RUN yarn install --frozen-lockfile
+
+FROM node:19-alpine3.15 as builder
+WORKDIR /app
+COPY --from=dev-deps /app/node_modules ./node_modules
+COPY . .
+# RUN yarn test
+RUN yarn build
+
+FROM nginx:1.23.3 as prod
+EXPOSE 80
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+CMD [ "nginx", "-g", "daemon off;" ]
+
+////
+
+docker build -t heroes-app . --no-cache
+docker image ls
+docker container run -d -p 80:80 heroes-app
+docker image rm -f heroes-app (eliminar la imagen si falla el Dockerfile)
+abrir en localhost (incognito por que cachea el navegador)
+
+
+####### configuración de nginx ########
+docker container run -d nginx:1.23.3
+docker container ls
+docker exec -it XXX bash
+cd /etc/nginx/conf.d/
+cat default.conf
+
+######### default.conf (Archivo de configuración de NGINX)
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root           html;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include        fastcgi_params;
+    #}
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}
+#########
+
+####### configuración de nginx ########
+
+crear el siguiente archivo en el proyecto (con el contenido descargado del contenedor de nginx base {anterior})
+nginx/nginx.conf
+
+una vez que tengamos el archivo en la carpeta lo enlazamos para remplazarlo en el Dockerfile
+
+### (se agrego el fragmento que elimina la configuración default y le agrega la nueva del repo)
+FROM node:19-alpine3.15 as dev-deps
+WORKDIR /app
+COPY package.json package.json
+RUN yarn install --frozen-lockfile
+
+
+FROM node:19-alpine3.15 as builder
+WORKDIR /app
+COPY --from=dev-deps /app/node_modules ./node_modules
+COPY . .
+# RUN yarn test
+RUN yarn build
+
+
+FROM nginx:1.23.3 as prod
+EXPOSE 80
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+CMD [ "nginx", "-g", "daemon off;" ]
+###
+
+
+docker image prune -a (eliminar todas las imagenes)
+docker build -t heroes-app . --no-cache
+docker container run -d -p 80:80 heroes-app
+
+
+//! comprimimos y descargamos el proyectio del sevidor para dejarlo en este repo (lo descargamos con webadmin filemanager)
+//! (no incluimos la carpeta node_modules)
+cd ..
+zip -r react-heroes.zip ./react-heroes/ 
+
+directorio del proyecto finalizado en: "archivos/cap09/react-heroes_fin"

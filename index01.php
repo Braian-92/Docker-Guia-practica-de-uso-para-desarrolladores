@@ -1216,3 +1216,32 @@ cd ..
 zip -r react-heroes.zip ./react-heroes/ 
 
 directorio del proyecto finalizado en: "archivos/cap09/react-heroes_fin"
+
+
+################## Kubernetes (K8S) ##############################################################
+################## Kubernetes (K8S) ##############################################################
+################## Kubernetes (K8S) ##############################################################
+################## Kubernetes (K8S) ##############################################################
+################## Kubernetes (K8S) ##############################################################
+
+Componentes: pods, service, ingress, configMap, secret, volume, deployment, stateFulset
+
+Pod: Capa que se contruye sobre los contenedores.
+Service: Permite comunicación con direcciones fijas.
+Ingress: Tráfico externo que viaja para adentro del clueter.
+ConfigMap: Configuraciones como variables de entorno.
+Secret: Similar a los ConfigMap pero secretos.
+Volume: Mantener la data persistente.
+Deployment: Planos o "blueprints" de la construcción de un Pod.
+StateFulset: Similar a Deployment pero para uso de la base de datos.
+
+
+############# instalación de minikube #############
+
+https://minikube.sigs.k8s.io/docs/
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+minikube version
+

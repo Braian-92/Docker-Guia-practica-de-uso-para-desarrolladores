@@ -1245,3 +1245,121 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 minikube version
 
+minikube start
+
+##### documentación para crear los yml del directorio "archivos/cap10/k8s-teslo_v1" #####
+
+docu de configmap para yml
+https://kubernetes.io/docs/concepts/configuration/configmap/
+
+https://kubernetes.io/docs/concepts/configuration/secret/
+
+https://codebeautify.org/base64-encode
+
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+https://kubernetes.io/es/docs/concepts/services-networking/service/
+
+
+###### instalar kubectl ######### (metodo del curso DevOps-con-Docker-Jenkins-Kubernetes-git-GitFlow-CI-y-CD )
+https://k8s-docs.netlify.app/en/docs/tasks/tools/install-kubectl/
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+chmod +x ./kubectl (dar permisos)
+sudo mv ./kubectl /usr/local/bin/kubectl (moverlo a los binarios)
+kubectl version --client (verificar version instalada del kubectl)
+###### FIN instalar kubectl #########
+
+kubectl get all ( salida:  ClusterIP => 10.96.0.1 )
+
+kubectl apply -f postgres-config.yml
+kubectl apply -f postgres-secrets.yml
+kubectl apply -f postgres.yml
+
+kubectl get all
+
+kubectl describe deployment.apps/postgres-deployment
+kubectl logs pod/postgres-deployment-dff6b7f7c-fprv5
+
+## integrar pgadmin al cluster
+
+https://hub.docker.com/r/dpage/pgadmin4
+
+
+kubectl apply -f pg-admin-secrets.yml
+kubectl apply -f pg-admin.yml
+
+kubectl get all
+kubectl describe deployment.apps/pg-admin-deployment
+kubectl logs pod/pg-admin-deployment-8b89b8647-v6zrn 
+
+minikube service pg-admin-service
+
+
+
+minikube delete --all (limpiar todo)
+
+## comandos minikube ######
+
+minikube pause
+minikube unpause
+minikube stop
+minikube delete --all
+kubectl get pod
+
+kubectl apply -f postgres-config.yml
+kubectl apply -f postgres-secrets.yml
+kubectl apply -f postgres.yml
+kubectl get all
+
+kubectl logs <nombre del deployment>
+kubectl get events
+minikube ip 
+
+minikube ssh -- docker images
+
+## FIN comandos minikube ######
+
+
+cd ..
+zip -r k8s-teslo.zip ./k8s-teslo/ 
+
+
+-------------
+minikube delete --all
+minikube start
+
+kubectl apply -f postgres-config.yml
+kubectl apply -f postgres-secrets.yml
+kubectl apply -f postgres.yml
+
+kubectl apply -f pg-admin-secrets.yml
+kubectl apply -f pg-admin.yml
+
+minikube service pg-admin-service
+
+kubectl get all
+
+superman@google.com - EstoEsUnPassWordSecreto
+
+General
+    name => Postgres
+Connection
+    host => postgres-service
+    port => 5432
+    username => postgres
+    password => EstoEsUnPassWordSecreto
+
+
+
+## AGREGAR BACKEND
+
+kubectl apply -f backend-secrets.yml
+kubectl apply -f backend.yml
+
+kubectl rollout restart deployment (reiniciar todos los deployments)
+kubectl get all (lo usamos para el obtener el nombre y utilizarlo en el comando inferior)
+kubectl rollout restart deployment backend-deployment (reiniciar especifico)
+
+minikube service backend-deployment

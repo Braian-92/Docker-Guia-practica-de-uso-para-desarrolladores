@@ -1380,7 +1380,7 @@ http://192.168.1.41/ (app_example) corre en el puerto 80
 http://192.168.1.41/metrics
 http://192.168.1.41:9100/metrics (node_exporter)
 http://192.168.1.41:9090/targets (prometheus)
-http://192.168.1.41:3000/ (grafana)
+http://192.168.1.41:3000/ (grafana) [admin - admin]
 
 agregar datasource de prometeus en grafana con el https
 
@@ -1398,3 +1398,11 @@ sudo mkdir -p ./prometheus-data ./grafana-data && sudo chmod -R 777 ./prometheus
 
 docker compose up
 docker compose up -d (en el caso de que ya lo vengamos usando y estemos seguros de que no da errores)
+
+en los directorios se encontrarann los json para importar los dashboards de las metricas cargadas
+
+extras\01-monitoreo-recursos\dash\Docker-cAdvisor.json
+## https://grafana.com/grafana/dashboards/13946-docker-cadvisor/
+
+extras\01-monitoreo-recursos\dash\Node Exporter Full.json
+## https://grafana.com/grafana/dashboards/1860-node-exporter-full/

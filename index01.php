@@ -1363,3 +1363,38 @@ kubectl get all (lo usamos para el obtener el nombre y utilizarlo en el comando 
 kubectl rollout restart deployment backend-deployment (reiniciar especifico)
 
 minikube service backend-deployment
+
+
+################################################# FUERA DEL CURSO ##################################
+
+### Monitoreo con Docker (Grafana, Prometheus, Node Exporter, cAdvisor) ##
+https://www.youtube.com/watch?v=PCJwJpbln6Q
+
+<!-- sudo apt install zip unzip -->
+<!-- zip -r 01-monitoreo-recursos-v2.zip ./01-monitoreo-recursos-v2/ -->
+
+direcciones de los servicios, en mi casi mi ip es 192.168.1.41
+
+http://192.168.1.41/ (app_example) corre en el puerto 80
+
+http://192.168.1.41/metrics
+http://192.168.1.41:9100/metrics (node_exporter)
+http://192.168.1.41:9090/targets (prometheus)
+http://192.168.1.41:3000/ (grafana)
+
+agregar datasource de prometeus en grafana con el https
+
+http://prometheus:9090
+
+### ejecutar microservicios ###
+
+primero vamos a crear las carpetas de los volumenes persistentes con los accesos de escritura, 
+ya que trae problemas cuando los realiza el yml de docker sin los permisos
+
+## volumenes y permisos ##
+sudo mkdir -p ./prometheus-data ./grafana-data && sudo chmod -R 777 ./prometheus-data ./grafana-data
+
+## lanzar microservicios ##
+
+docker compose up
+docker compose up -d (en el caso de que ya lo vengamos usando y estemos seguros de que no da errores)

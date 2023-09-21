@@ -1406,3 +1406,5 @@ extras\01-monitoreo-recursos\dash\Docker-cAdvisor.json
 
 extras\01-monitoreo-recursos\dash\Node Exporter Full.json
 ## https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+
+### docker compose down -v (quitar sevicios y limpiar persistencia de los volumenes) extra 
